@@ -1,10 +1,14 @@
 import pandas as pd
-df = pd.read_csv('basic.csv')
+df = pd.read_csv('FINAL.csv', encoding="latin9")
 df.head()
+print("done")
+
 
 df = df[pd.notnull(df['Event_name'])]
 df.info()
 
+
+print("done")
 
 col = ['Tag', 'Event_name']
 df = df[col]
@@ -17,6 +21,7 @@ category_id_df = df[['Tag', 'category_id']].drop_duplicates().sort_values('categ
 category_to_id = dict(category_id_df.values)
 id_to_category = dict(category_id_df[['category_id', 'Tag']].values)
 
+print("done")
 
 # import matplotlib.pyplot as plt
 # fig = plt.figure(figsize=(8,6))
@@ -24,7 +29,7 @@ id_to_category = dict(category_id_df[['category_id', 'Tag']].values)
 # plt.show()
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-tfidf = TfidfVectorizer(sublinear_tf=True, min_df=0, norm='l2', encoding='latin-1', ngram_range=(1, 2), stop_words='english')
+tfidf = TfidfVectorizer(sublinear_tf=True, min_df=1, norm='l2', encoding='utf-8', ngram_range=(1, 2), stop_words='english')
 features = tfidf.fit_transform(df.Event_name).toarray()
 labels = df.category_id
 features.shape
